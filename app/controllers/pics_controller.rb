@@ -7,18 +7,21 @@ class PicsController < ApplicationController
   end
 
   def new
-    if params[:back]
-      @pic = Pic.new(pics_params)
-    else
-      @pic = Pic.new
-    end
+#    if params[:back]
+#      @pic = Pic.new(pics_params)
+#    else
+#      @pic = Pic.new
+#    end
+
+    @pic = Pic.new
   end
 
- def create
-    @Pic = Pic.new(Pics_params)
-    if @Pic.save
-      redirect_to Pics_path, notice: "写真を作成しました！"
-      NoticeMailer.sendmail_Pic(@Pic).deliver
+  def create
+    @pic  = Pic.new(pics_params)
+    @pic.user_id = current_user.id
+    if @pic.save
+      redirect_to pics_path, notice: "写真を作成しました！"
+#      NoticeMailer.sendmail_Pic(@Pic).deliver
     else
       render 'new'
     end
@@ -40,11 +43,6 @@ class PicsController < ApplicationController
     end
   end
 
-  def confirm
-    @pic = Pic.new(pics_params)
-    render :new if @pic.invalid?
-  end
-
   def destroy
     # edit, update, destroyで共通コード
     @pic = Pic.find(params[:id])
@@ -54,7 +52,7 @@ class PicsController < ApplicationController
 
   private
     def pics_params
-      params.require(:pic).permit(:title, :content)
+      params.require(:pic).permit(:title, :content, :image, :image_cache)
     end
 
     # idをキーとして値を取得するメソッド

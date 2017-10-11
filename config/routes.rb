@@ -5,9 +5,6 @@ Rails.application.routes.draw do
     omniauth_callbacks: "users/omniauth_callbacks"
   }
   resources :pics, only: [:index, :new, :create, :edit, :update ,:destroy] do
-    collection do
-      post :confirm
-    end
   end
 
   root 'top#index'
@@ -16,3 +13,4 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 end
+

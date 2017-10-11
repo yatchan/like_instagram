@@ -1,4 +1,5 @@
-<%= form_for(@pic, url: choose_new_or_edit) do |f| %>
+<%= form_for(@pic) do |f| %>
+
 <% if @pic.errors.any? %>
   <div id="error_explanation">
     <h2><%= @pic.errors.count %>件のエラーがあります。</h2>
@@ -16,6 +17,13 @@
 <%= f.label :内容 %>
 <%= f.text_field :content, class: 'form-control' %>
 <br>
+
+<%= f.label :投稿写真 %>
+<%= image_tag @pic.image.url if @pic.image? %>
+<%= f.file_field :image %>
+<%= f.hidden_field :image_cache %>
+<br>
+
 <%= f.submit '投稿', class: 'btn btn-primary btn-block' %>
 <% end %>
 <%= link_to "写真一覧画面にもどる", pics_path %>
