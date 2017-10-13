@@ -7,12 +7,6 @@ class PicsController < ApplicationController
   end
 
   def new
-#    if params[:back]
-#      @pic = Pic.new(pics_params)
-#    else
-#      @pic = Pic.new
-#    end
-
     @pic = Pic.new
   end
 
@@ -29,7 +23,11 @@ class PicsController < ApplicationController
 
   def edit
     # edit, update, destroyで共通コード
-    @pic = Pic.find(params[:id])
+    if(@pic.user_id == current_user.id)
+      @pic = Pic.find(params[:id])
+    else
+      redirect_to pics_path, notice: "自分の投稿以外は編集できません"
+    end
   end
 
   def update
